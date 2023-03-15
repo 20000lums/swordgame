@@ -538,6 +538,11 @@ MonoBehaviour:
   myRigidBody: {fileID: 1743312081}
   myCircleCollider: {fileID: 1743312083}
   jumpHeight: 2373
+  delay: 1
+  swordStartingPoint: 0.7853982
+  swordEndPoint: -2.356194
+  swingSpeed: 0.05
+  sword: {fileID: 1909775062}
 --- !u!1 &1909775062
 GameObject:
   m_ObjectHideFlags: 0
