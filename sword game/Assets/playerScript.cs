@@ -19,11 +19,17 @@ public class playerScript : MonoBehaviour
     private OrbitScript swordOrbit;
     public GameObject sword;
     private float attackOn = 0;
+    private float swordStartingPoint2 = 0;
+    private float swordEndPoint2 = 0;
     // Start is called before the first frame update
     void Start()
     {
         timer = delay;
         swordOrbit = sword.GetComponent<OrbitScript>();
+        swordStartingPoint2 = -Mathf.PI + swordEndPoint;
+        swordEndPoint2 = Mathf.PI - swordStartingPoint;
+        Debug.Log(swordStartingPoint2);
+        Debug.Log(swordEndPoint2);
     }
 
     // Update is called once per frame
@@ -50,15 +56,15 @@ public class playerScript : MonoBehaviour
     void Attack()
     {
         timer = timer + Time.deltaTime;
-        Debug.Log(timer);
+        //Debug.Log(timer);
             if (delay <= timer)
         {
          
             if (Input.GetKeyDown(KeyCode.J) == true)
             {
                 attackOn = 1;
-                 
                 timer = 0;
+                
             }
             else if (Input.GetKeyDown(KeyCode.I) == true)
             {
@@ -70,18 +76,30 @@ public class playerScript : MonoBehaviour
             {
                 attackOn = 3;
                 timer = 0;
+                swordRotation = swordStartingPoint2;
             }
 
         }
         if (attackOn == 2)
         {
-            swordRotation = swingSpeed * Time.deltaTime;
+            swordRotation = swordRotation + swingSpeed * Time.deltaTime;
             if (swordRotation >= swordEndPoint)
+            {
+                swordRotation = 0;
+                attackOn = 0;
+                Debug.Log("this happened");
+            }
+        }
+        if (attackOn == 3)
+        {
+            swordRotation = swordRotation - swingSpeed * Time.deltaTime;
+            if (swordRotation >= swordEndPoint2)
             {
                 swordRotation = 0;
                 attackOn = 0;
             }
         }
-        swordOrbit.Rotation = swordRotation * direction;
+       // Debug.Log(swordRotation);
+        swordOrbit.Rotation = -swordRotation * direction;
     }
 }
