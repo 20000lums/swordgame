@@ -13,23 +13,22 @@ public class playerScript : MonoBehaviour
     private float timer = 0;
     public float delay = 0;
     private float swordRotation = 0;
+    private float swordLeingth = 0;
     public float swordStartingPoint = 0;
     public float swordEndPoint = 0;
     public float swingSpeed = 0;
     private OrbitScript swordOrbit;
     public GameObject sword;
     private float attackOn = 0;
-    private float swordStartingPoint2 = 0;
-    private float swordEndPoint2 = 0;
+    public float swordStartingPoint2 = 0;
+    public float swordEndPoint2 = 0;
+    public float Range = 0;
+    public float stabSpeed = 0;
     // Start is called before the first frame update
     void Start()
     {
         timer = delay;
         swordOrbit = sword.GetComponent<OrbitScript>();
-        swordStartingPoint2 = -Mathf.PI + swordEndPoint;
-        swordEndPoint2 = Mathf.PI - swordStartingPoint;
-        Debug.Log(swordStartingPoint2);
-        Debug.Log(swordEndPoint2);
     }
 
     // Update is called once per frame
@@ -64,21 +63,34 @@ public class playerScript : MonoBehaviour
             {
                 attackOn = 1;
                 timer = 0;
+                swordRotation = .5f * Mathf.PI;
                 
             }
             else if (Input.GetKeyDown(KeyCode.I) == true)
             {
                 attackOn = 2;
                 timer = 0;
+                swordLeingth = Range;
                 swordRotation = swordStartingPoint;
             }
             else if (Input.GetKeyDown(KeyCode.K) == true)
             {
                 attackOn = 3;
                 timer = 0;
+                swordLeingth = Range;
                 swordRotation = swordStartingPoint2;
             }
 
+        }
+        if (attackOn == 1)
+        {
+            swordLeingth = swordLeingth + stabSpeed * Time.deltaTime;
+            if (swordLeingth >= Range)
+            {
+                swordLeingth = 0;
+                attackOn = 0;
+                swordRotation = 0;
+            }
         }
         if (attackOn == 2)
         {
@@ -87,19 +99,22 @@ public class playerScript : MonoBehaviour
             {
                 swordRotation = 0;
                 attackOn = 0;
-                Debug.Log("this happened");
+                swordLeingth = 0;
+                //Debug.Log("this happened");
             }
         }
         if (attackOn == 3)
         {
             swordRotation = swordRotation - swingSpeed * Time.deltaTime;
-            if (swordRotation >= swordEndPoint2)
+            if (swordRotation <= swordEndPoint2)
             {
                 swordRotation = 0;
                 attackOn = 0;
+                swordLeingth = 0;
             }
         }
        // Debug.Log(swordRotation);
         swordOrbit.Rotation = -swordRotation * direction;
+        swordOrbit.Radious = swordLeingth;
     }
 }

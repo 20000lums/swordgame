@@ -533,16 +533,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8b592119fa089942a97082851c45d45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 8.1
+  moveSpeed: 25.67
   flore: {fileID: 164309986}
   myRigidBody: {fileID: 1743312081}
   myCircleCollider: {fileID: 1743312083}
   jumpHeight: 2373
   delay: 1
-  swordStartingPoint: 0.7853982
-  swordEndPoint: -2.356194
-  swingSpeed: 0.05
+  swordStartingPoint: -0.7853982
+  swordEndPoint: 2.356194
+  swingSpeed: 10.58
   sword: {fileID: 1909775062}
+  swordStartingPoint2: 4.3982296
+  swordEndPoint2: 1.2566371
+  Range: 1.5
+  stabSpeed: 10.58
 --- !u!1 &1909775062
 GameObject:
   m_ObjectHideFlags: 0
