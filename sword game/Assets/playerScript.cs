@@ -36,12 +36,12 @@ public class playerScript : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.A) == true)
             {
-                myRigidBody.AddForce(Vector2.left*moveSpeed);
+                myRigidBody.AddForce(Vector2.left*moveSpeed*Time.deltaTime);
             direction = -1;
             }
         if (Input.GetKey(KeyCode.D) == true)
             {
-                myRigidBody.AddForce(Vector2.right*moveSpeed);
+                myRigidBody.AddForce(Vector2.right*moveSpeed*Time.deltaTime);
             direction = 1;
             }
          if (Input.GetKeyDown(KeyCode.Space) == true && myCircleCollider.IsTouching(flore.GetComponent<BoxCollider2D>()) == true)

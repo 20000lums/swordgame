@@ -17,6 +17,10 @@ public class EnemyScript : MonoBehaviour
     private OrbitScript shieldMidOrbit;
     private OrbitScript shieldTopOrbit;
     private OrbitScript shieldBottomOrbit;
+    private Renderer ShieldMidRend;
+    private Renderer ShieldTopRend;
+    private Renderer ShieldBottomRend;
+    private float ShieldOn = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +28,9 @@ public class EnemyScript : MonoBehaviour
         shieldMidOrbit = shieldmid.GetComponent<OrbitScript>();
         shieldTopOrbit = shieldtop.GetComponent<OrbitScript>();
         shieldBottomOrbit = shieldbottom.GetComponent<OrbitScript>();
+        ShieldMidRend = shieldmid.GetComponent<SpriteRenderer>();
+        ShieldTopRend = shieldtop.GetComponent<SpriteRenderer>();
+        ShieldBottomRend = shieldbottom.GetComponent<SpriteRenderer>();
     }
     
     // Update is called once per frame
@@ -38,9 +45,25 @@ public class EnemyScript : MonoBehaviour
         {
             ShieldRotation = AngToPlayer;
             Direction = Mathf.Abs(AngToPlayer) / AngToPlayer;
-            shieldMidOrbit.Rotation = ShieldRotation;
-            shieldTopOrbit.Rotation = ShieldRotation + shieldSpread * Direction;
-            shieldBottomOrbit.Rotation = ShieldRotation - shieldSpread * Direction;
+            shieldMidOrbit.Rotation = Mathf.PI *0.5f + ShieldRotation;
+            shieldTopOrbit.Rotation = Mathf.PI * 0.5f + ShieldRotation + shieldSpread * Direction;
+            shieldBottomOrbit.Rotation = Mathf.PI * 0.5f + ShieldRotation - shieldSpread * Direction;
+            if(isHit == true)
+            {
+                ShieldOn = Random.Range(0, 3);
+                if(ShieldOn >= 1f)
+                {
+
+                }
+                else if(ShieldOn >= 2f)
+                {
+
+                }
+                else if(ShieldOn >= 3f)
+                {
+
+                }
+            }
         }
     }
 }
