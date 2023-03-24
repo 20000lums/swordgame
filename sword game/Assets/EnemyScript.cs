@@ -21,23 +21,25 @@ public class EnemyScript : MonoBehaviour
     private Renderer ShieldTopRend;
     private Renderer ShieldBottomRend;
     private float ShieldOn = 0;
+    private float PointHit = 0;
     // Start is called before the first frame update
     void Start()
     {
-        isVulnerable = true;
         shieldMidOrbit = shieldmid.GetComponent<OrbitScript>();
         shieldTopOrbit = shieldtop.GetComponent<OrbitScript>();
         shieldBottomOrbit = shieldbottom.GetComponent<OrbitScript>();
         ShieldMidRend = shieldmid.GetComponent<SpriteRenderer>();
         ShieldTopRend = shieldtop.GetComponent<SpriteRenderer>();
         ShieldBottomRend = shieldbottom.GetComponent<SpriteRenderer>();
+        StartVulnerable();
     }
     
     // Update is called once per frame
     void Update()
     {
-        AngToPlayer = Mathf.Atan2(transform.position.y - PlayerObj.transform.position.y, transform.position.x - PlayerObj.transform.position.x);
+        AngToPlayer = Mathf.PI* 0.5f + Mathf.Atan2(transform.position.y - PlayerObj.transform.position.y, transform.position.x - PlayerObj.transform.position.x);
         calcVulnerable();
+        Debug.Log(AngToPlayer);
     }
     void calcVulnerable()
     {
@@ -45,25 +47,76 @@ public class EnemyScript : MonoBehaviour
         {
             ShieldRotation = AngToPlayer;
             Direction = Mathf.Abs(AngToPlayer) / AngToPlayer;
-            shieldMidOrbit.Rotation = Mathf.PI *0.5f + ShieldRotation;
-            shieldTopOrbit.Rotation = Mathf.PI * 0.5f + ShieldRotation + shieldSpread * Direction;
-            shieldBottomOrbit.Rotation = Mathf.PI * 0.5f + ShieldRotation - shieldSpread * Direction;
+            shieldMidOrbit.Rotation = ShieldRotation;
+            shieldTopOrbit.Rotation = ShieldRotation + shieldSpread * Direction;
+            shieldBottomOrbit.Rotation = ShieldRotation - shieldSpread * Direction;
             if(isHit == true)
             {
-                ShieldOn = Random.Range(0, 3);
-                if(ShieldOn >= 1f)
-                {
 
-                }
-                else if(ShieldOn >= 2f)
+                if(PointHit == 1 && ShieldOn >= 1)
                 {
-
+                    Debug.Log("nice hit");
+                    ShieldOn = Random.Range(0, 3);
                 }
-                else if(ShieldOn >= 3f)
+                else if(PointHit == 2 && ShieldOn >= 2)
                 {
-
+                    Debug.Log("nice hit");
+                    ShieldOn = Random.Range(0, 3);
                 }
+                else if(PointHit == 3 && ShieldOn >= 3)
+                {
+                    Debug.Log("nice hit");
+                    ShieldOn = Random.Range(0, 3);
+                }
+                else
+                {
+                    Debug.Log("nope");
+                }
+                
+                if(ShieldOn <= 1f)
+                {
+                    ShieldTopRend.enabled = false;
+                    ShieldMidRend.enabled = true;
+                    ShieldBottomRend.enabled = true;
+                }
+                else if(ShieldOn <= 2f)
+                {
+                    ShieldTopRend.enabled = true;
+                    ShieldMidRend.enabled = false;
+                    ShieldBottomRend.enabled = true;
+                }
+                else if(ShieldOn <= 3f)
+                {
+                    ShieldTopRend.enabled = true;
+                    ShieldMidRend.enabled = false;
+                    ShieldBottomRend.enabled = true;
+                }
+                isHit = false;
             }
         }
+    }
+    void StartVulnerable()
+    {
+        isVulnerable = true;
+        ShieldOn = Random.Range(0f, 3f);
+        if (ShieldOn <= 1f)
+        {
+            ShieldTopRend.enabled = false;
+            ShieldMidRend.enabled = true;
+            ShieldBottomRend.enabled = true;
+        }
+        else if (ShieldOn <= 2f)
+        {
+            ShieldTopRend.enabled = true;
+            ShieldMidRend.enabled = false;
+            ShieldBottomRend.enabled = true;
+        }
+        else if (ShieldOn <= 3f)
+        {
+            ShieldTopRend.enabled = true;
+            ShieldMidRend.enabled = true;
+            ShieldBottomRend.enabled = false;
+        }
+        Debug.Log(ShieldOn);
     }
 }
