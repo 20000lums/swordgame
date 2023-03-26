@@ -21,16 +21,18 @@ public class EnemyScript : MonoBehaviour
     private Renderer ShieldTopRend;
     private Renderer ShieldBottomRend;
     private float ShieldOn = 0;
+    private float PointHit = 0;
     // Start is called before the first frame update
     void Start()
     {
-        isVulnerable = true;
+        
         shieldMidOrbit = shieldmid.GetComponent<OrbitScript>();
         shieldTopOrbit = shieldtop.GetComponent<OrbitScript>();
         shieldBottomOrbit = shieldbottom.GetComponent<OrbitScript>();
         ShieldMidRend = shieldmid.GetComponent<SpriteRenderer>();
         ShieldTopRend = shieldtop.GetComponent<SpriteRenderer>();
         ShieldBottomRend = shieldbottom.GetComponent<SpriteRenderer>();
+        StartVulnerable();
     }
     
     // Update is called once per frame
@@ -38,6 +40,7 @@ public class EnemyScript : MonoBehaviour
     {
         AngToPlayer = Mathf.Atan2(transform.position.y - PlayerObj.transform.position.y, transform.position.x - PlayerObj.transform.position.x);
         calcVulnerable();
+        Debug.Log(AngToPlayer);
     }
     void calcVulnerable()
     {
@@ -50,20 +53,35 @@ public class EnemyScript : MonoBehaviour
             shieldBottomOrbit.Rotation = Mathf.PI * 0.5f + ShieldRotation - shieldSpread * Direction;
             if(isHit == true)
             {
-                ShieldOn = Random.Range(0, 3);
-                if(ShieldOn >= 1f)
-                {
-
-                }
-                else if(ShieldOn >= 2f)
-                {
-
-                }
-                else if(ShieldOn >= 3f)
-                {
-
-                }
+                
             }
         }
+    }
+    void StartVulnerable()
+    {
+        isVulnerable = true;
+        NewShieldState();
+    }
+    void NewShieldState()
+    {
+        ShieldOn = Random.Range(0, 3);
+                if(ShieldOn <= 1f)
+                {
+                    ShieldTopRend.enabled = false;
+                    ShieldMidRend.enabled = true;
+                    ShieldBottomRend.enabled = true;
+                }
+                else if(ShieldOn <= 2f && ShieldOn >1f)
+                {
+                    ShieldTopRend.enabled = true;
+                    ShieldMidRend.enabled = false;
+                    ShieldBottomRend.enabled = true;
+                }
+                else if(ShieldOn <= 3f && ShieldOn < 2f)
+                {
+                    ShieldTopRend.enabled = true;
+                    ShieldMidRend.enabled = true;
+                    ShieldBottomRend.enabled = false;
+                }
     }
 }
