@@ -80,7 +80,7 @@ public class EnemyScript : MonoBehaviour
     {
         Debug.Log(NumInSeq);
         StartVulnerable(1,1);
-        Dash(5f,1,2);
+        Dash(15f,1,2);
         endSeq(3);
         
     }
@@ -224,6 +224,7 @@ public class EnemyScript : MonoBehaviour
                     SwordRend.enabled = false;
                     myTime = 0;
                     isAttacking = false;
+                    transform.position = endPoint;
                     NumInSeq += 1;
                     StartSeq();
                 }
