@@ -19,30 +19,66 @@ public class playerScript : MonoBehaviour
     public float swingSpeed = 0;
     private OrbitScript swordOrbit;
     public GameObject sword;
-    private float attackOn = 0;
+    public float attackOn = 0;
     public float swordStartingPoint2 = 0;
     public float swordEndPoint2 = 0;
     public float Range = 0;
     public float stabSpeed = 0;
+    public GameObject Enemy;
+    private EnemyScript myEnemyScript;
+    private SpriteRenderer Rend;
+    private SpriteRenderer SwordRend;
+    private float AngToEnemy = 0;
     // Start is called before the first frame update
     void Start()
     {
         timer = delay;
         swordOrbit = sword.GetComponent<OrbitScript>();
+        myEnemyScript = Enemy.GetComponent<EnemyScript>();
+        Rend = GetComponent<SpriteRenderer>();
+        SwordRend = sword.GetComponent<SpriteRenderer>();
+        SwordRend.enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        AngToEnemy = direction * Mathf.Atan2(transform.position.y - Enemy.transform.position.y , Mathf.Abs(transform.position.x) - Mathf.Abs(Enemy.transform.position.x) );
+        if(myEnemyScript.isVulnerable == false)
+        {
+            if(Input.GetKey(KeyCode.A) == true)
+            {
+                direction = -1;
+                Rend.flipX = false;
+            }
+            if(Input.GetKey(KeyCode.D) == true)
+            {
+                direction = 1;
+                Rend.flipX = true;
+            }
+        }
+        else
+        {
+            direction = transform.position.x - Enemy.transform.position.x;
+            direction = Mathf.Abs(direction)/direction;
+            if(direction == 1)
+            {
+                Rend.flipX = false;
+            }
+            else
+            {
+                Rend.flipX = true;
+            }
+        }
+        
         if (Input.GetKey(KeyCode.A) == true)
             {
                 myRigidBody.AddForce(Vector2.left*moveSpeed*Time.deltaTime);
-            direction = -1;
+
             }
         if (Input.GetKey(KeyCode.D) == true)
             {
                 myRigidBody.AddForce(Vector2.right*moveSpeed*Time.deltaTime);
-            direction = 1;
             }
          if (Input.GetKeyDown(KeyCode.Space) == true && myCircleCollider.IsTouching(flore.GetComponent<BoxCollider2D>()) == true)
             {
@@ -50,6 +86,7 @@ public class playerScript : MonoBehaviour
             }
 
         Attack();
+        
     }
 
     void Attack()
@@ -61,17 +98,18 @@ public class playerScript : MonoBehaviour
          
             if (Input.GetKeyDown(KeyCode.J) == true)
             {
-                attackOn = 1;
+                attackOn = 2;
                 timer = 0;
                 swordRotation = .5f * Mathf.PI;
-                
+                SwordRend.enabled = true;
             }
             else if (Input.GetKeyDown(KeyCode.I) == true)
             {
-                attackOn = 2;
+                attackOn = 1;
                 timer = 0;
                 swordLeingth = Range;
                 swordRotation = swordStartingPoint;
+                SwordRend.enabled = true;
             }
             else if (Input.GetKeyDown(KeyCode.K) == true)
             {
@@ -79,10 +117,11 @@ public class playerScript : MonoBehaviour
                 timer = 0;
                 swordLeingth = Range;
                 swordRotation = swordStartingPoint2;
+                SwordRend.enabled = true;
             }
 
         }
-        if (attackOn == 1)
+        if (attackOn == 2)
         {
             swordLeingth = swordLeingth + stabSpeed * Time.deltaTime;
             if (swordLeingth >= Range)
@@ -90,9 +129,10 @@ public class playerScript : MonoBehaviour
                 swordLeingth = 0;
                 attackOn = 0;
                 swordRotation = 0;
+                SwordRend.enabled = false;
             }
         }
-        if (attackOn == 2)
+        if (attackOn == 1)
         {
             swordRotation = swordRotation + swingSpeed * Time.deltaTime;
             if (swordRotation >= swordEndPoint)
@@ -100,7 +140,7 @@ public class playerScript : MonoBehaviour
                 swordRotation = 0;
                 attackOn = 0;
                 swordLeingth = 0;
-                //Debug.Log("this happened");
+                SwordRend.enabled = false;
             }
         }
         if (attackOn == 3)
@@ -111,10 +151,18 @@ public class playerScript : MonoBehaviour
                 swordRotation = 0;
                 attackOn = 0;
                 swordLeingth = 0;
+                SwordRend.enabled = false;
             }
         }
-       // Debug.Log(swordRotation);
-        swordOrbit.Rotation = -swordRotation * direction;
+        // Debug.Log(swordRotation);
+        if(myEnemyScript.isVulnerable == false)
+        {
+            swordOrbit.Rotation = -swordRotation * direction;
+        }
+        else
+        {
+            swordOrbit.Rotation = -swordRotation * -direction + AngToEnemy;
+        }
         swordOrbit.Radious = swordLeingth;
     }
 }
