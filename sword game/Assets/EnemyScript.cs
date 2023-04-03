@@ -46,7 +46,6 @@ public class EnemyScript : MonoBehaviour
     private bool isDash;
     public float ForHowLong = 0;
     public Vector3 endPoint;
-    private float Mag;
     private float SignX;
     private float SignY;
     private Vector3 RelativeEndPoint;
@@ -203,8 +202,8 @@ public class EnemyScript : MonoBehaviour
                 myTime = myTime + WindUp*Time.deltaTime;
                 if(myTime >= 1)
                 {
-                    Mag = Magnitude2(transform.position.x - PlayerObj.transform.position.x, transform.position.y - PlayerObj.transform.position.y );
-                    VectToDash = new Vector3(PlayerObj.transform.position.x/Mag - transform.position.x/Mag  , PlayerObj.transform.position.y/Mag - transform.position.y/Mag, 0f);
+                    VectToDash = new Vector3(PlayerObj.transform.position.x - transform.position.x, PlayerObj.transform.position.y - transform.position.y, 0);
+                    VectToDash = VectToDash / VectToDash.magnitude;
                     endPoint = PlayerObj.transform.position;
                     isAttacking = true;
                     myTime = 0;
@@ -219,7 +218,7 @@ public class EnemyScript : MonoBehaviour
             {
                 RelativeEndPoint = endPoint - transform.position;
                 transform.Translate(VectToDash*ActSpeed*Time.deltaTime);
-                if(Mathf.Abs(RelativeEndPoint.y)/RelativeEndPoint.y == -SignY  && Mathf.Abs(RelativeEndPoint.x)/RelativeEndPoint.x == -SignX)
+                if(Mathf.Abs(RelativeEndPoint.y)/RelativeEndPoint.y == -SignY  || Mathf.Abs(RelativeEndPoint.x)/RelativeEndPoint.x == -SignX)
                 {
                     isDash = false;
                     SwordRend.enabled = false;
