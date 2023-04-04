@@ -39,6 +39,7 @@ public class EnemyScript : MonoBehaviour
     private float myTime = 0;
     private int NumInSeq = 1;
     private bool isAttacking = false;
+    private Vector3 VectToPlayer;
 
 
 //variables for dash
@@ -72,7 +73,26 @@ public class EnemyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        AngToPlayer = +Mathf.PI * 0.5f + Mathf.Atan2(transform.position.y - PlayerObj.transform.position.y, transform.position.x - PlayerObj.transform.position.x);
+        Direction = transform.position.x - PlayerObj.transform.position.x;
+        Direction = Mathf.Abs(Direction) / Direction;
+        VectToPlayer = transform.position - PlayerObj.transform.position;
+        Debug.Log(transform.position.x - PlayerObj.transform.position.x);
+        if (transform.position.x - PlayerObj.transform.position.x != 0)
+        {
+            AngToPlayer = Mathf.PI*0.5f + Mathf.Atan2(transform.position.y - PlayerObj.transform.position.y, transform.position.x - PlayerObj.transform.position.x);
+        }
+        else
+        {
+            if(Mathf.Abs(VectToPlayer.y)/VectToPlayer.y == 1)
+            {
+                AngToPlayer = 0;
+            }
+            else
+            {
+                AngToPlayer = 180;
+            }
+        }
+
         calcVulnerable();
         CalcDash();
     }
@@ -89,8 +109,6 @@ public class EnemyScript : MonoBehaviour
         if (isVulnerable == true)
         {
             ShieldRotation = AngToPlayer;
-            Direction = transform.position.x - PlayerObj.transform.position.x;
-            Direction = Mathf.Abs(Direction) / Direction;
             shieldMidOrbit.Rotation = ShieldRotation;
             shieldTopOrbit.Rotation = ShieldRotation - shieldSpread * Direction;
             shieldBottomOrbit.Rotation = ShieldRotation + shieldSpread * Direction;
@@ -182,8 +200,6 @@ public class EnemyScript : MonoBehaviour
             ActSpeed = speed;
             WindUp = charge;
             SwordOrbit.Radious = 1.5f;
-            Direction = transform.position.x - PlayerObj.transform.position.x;
-            Direction = Mathf.Abs(Direction)/Direction;
             SwordOrbit.Rotation = Mathf.PI *0.25f * Direction;
             isDash = true;
         }
@@ -196,8 +212,6 @@ public class EnemyScript : MonoBehaviour
         {
             if(isAttacking == false)
             {
-                Direction = transform.position.x - PlayerObj.transform.position.x;
-                Direction = Mathf.Abs(Direction)/Direction;
                 SwordOrbit.Rotation = Mathf.PI *0.25f * Direction;
                 myTime = myTime + WindUp*Time.deltaTime;
                 if(myTime >= 1)
@@ -231,10 +245,6 @@ public class EnemyScript : MonoBehaviour
             }
 
         }
-    }
-    float Magnitude2(float side1, float side2)
-    {
-        return Mathf.Sqrt(Mathf.Pow(side1,2) + Mathf.Pow(side1,2));
     }
     void endSeq(int PointInSeq)
     {
