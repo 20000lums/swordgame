@@ -76,22 +76,23 @@ public class EnemyScript : MonoBehaviour
         Direction = transform.position.x - PlayerObj.transform.position.x;
         Direction = Mathf.Abs(Direction) / Direction;
         VectToPlayer = transform.position - PlayerObj.transform.position;
-        Debug.Log(transform.position.x - PlayerObj.transform.position.x);
         if (transform.position.x - PlayerObj.transform.position.x != 0)
         {
             AngToPlayer = Mathf.PI*0.5f + Mathf.Atan2(transform.position.y - PlayerObj.transform.position.y, transform.position.x - PlayerObj.transform.position.x);
         }
         else
         {
+            Debug.Log("this stuff happens");
             if(Mathf.Abs(VectToPlayer.y)/VectToPlayer.y == 1)
             {
-                AngToPlayer = 0;
+                AngToPlayer = Mathf.PI * 0.5f;
             }
             else
             {
-                AngToPlayer = 180;
+                AngToPlayer = 0;
             }
         }
+        //Debug.Log(AngToPlayer);
 
         calcVulnerable();
         CalcDash();
@@ -108,10 +109,11 @@ public class EnemyScript : MonoBehaviour
     {
         if (isVulnerable == true)
         {
-            ShieldRotation = AngToPlayer;
-            shieldMidOrbit.Rotation = ShieldRotation;
-            shieldTopOrbit.Rotation = ShieldRotation - shieldSpread * Direction;
-            shieldBottomOrbit.Rotation = ShieldRotation + shieldSpread * Direction;
+            
+            shieldMidOrbit.Rotation = AngToPlayer;
+            Debug.Log(AngToPlayer - shieldSpread * );
+            shieldTopOrbit.Rotation = AngToPlayer - shieldSpread * Direction;
+            shieldBottomOrbit.Rotation = AngToPlayer + shieldSpread * Direction;
             
             
             if(MyCircleColider.IsTouching(PlayerSword.GetComponent<BoxCollider2D>()) == true && IsRecover == false && myPlayerScript.attackOn != 0)
@@ -140,6 +142,7 @@ public class EnemyScript : MonoBehaviour
                     Debug.Log("in the words of one of my greatest friends, you failed");
                     IsRecover = true;
                 }
+                
                 
                 NewShieldState();
             }
@@ -251,7 +254,6 @@ public class EnemyScript : MonoBehaviour
         if(PointInSeq == NumInSeq)
         {
             NumInSeq = 1;
-            Debug.Log("thiswas called");
             StartSeq();
         }
     }

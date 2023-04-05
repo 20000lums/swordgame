@@ -43,7 +43,21 @@ public class playerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        AngToEnemy = direction * Mathf.Atan2(transform.position.y - Enemy.transform.position.y , Mathf.Abs(transform.position.x) - Mathf.Abs(Enemy.transform.position.x) );
+        if (transform.position.x - Enemy.transform.position.x != 0)
+        {
+            AngToEnemy = Mathf.Atan2(transform.position.y - Enemy.transform.position.y, transform.position.x - Enemy.transform.position.x);
+        }
+        else
+        {
+            if(transform.position.y - transform.position.y == 1)
+            {
+                AngToEnemy = Mathf.PI;
+            }
+            else
+            {
+                AngToEnemy = 0;
+            }
+        }
         if(myEnemyScript.isVulnerable == false)
         {
             if(Input.GetKey(KeyCode.A) == true)
