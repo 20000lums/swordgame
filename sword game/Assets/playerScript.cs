@@ -73,8 +73,16 @@ public class playerScript : MonoBehaviour
         }
         else
         {
+            
             direction = transform.position.x - Enemy.transform.position.x;
-            direction = Mathf.Abs(direction)/direction;
+            if (direction != 0)
+            {
+                direction = Mathf.Abs(direction) / direction;
+            }
+            else
+            {
+                direction = 1;
+            }
             if(direction == 1)
             {
                 Rend.flipX = false;

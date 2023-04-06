@@ -74,7 +74,14 @@ public class EnemyScript : MonoBehaviour
     void Update()
     {
         Direction = transform.position.x - PlayerObj.transform.position.x;
-        Direction = Mathf.Abs(Direction) / Direction;
+        if (Direction != 0)
+        {
+            Direction = Mathf.Abs(Direction) / Direction;
+        }
+        else
+        {
+            Direction = 1;
+        }
         VectToPlayer = transform.position - PlayerObj.transform.position;
         if (transform.position.x - PlayerObj.transform.position.x != 0)
         {
@@ -82,7 +89,7 @@ public class EnemyScript : MonoBehaviour
         }
         else
         {
-            Debug.Log("this stuff happens");
+            //Debug.Log("this stuff happens");
             if(Mathf.Abs(VectToPlayer.y)/VectToPlayer.y == 1)
             {
                 AngToPlayer = Mathf.PI * 0.5f;
@@ -99,8 +106,8 @@ public class EnemyScript : MonoBehaviour
     }
     void StartSeq()
     {
-        Debug.Log(NumInSeq);
-        StartVulnerable(1,1);
+        //Debug.Log(NumInSeq);
+        StartVulnerable(0.01f,1);
         Dash(15f,1,2);
         endSeq(3);
         
@@ -111,7 +118,7 @@ public class EnemyScript : MonoBehaviour
         {
             
             shieldMidOrbit.Rotation = AngToPlayer;
-            Debug.Log(AngToPlayer - shieldSpread * );
+            //Debug.Log(AngToPlayer - shieldSpread * Direction);
             shieldTopOrbit.Rotation = AngToPlayer - shieldSpread * Direction;
             shieldBottomOrbit.Rotation = AngToPlayer + shieldSpread * Direction;
             
@@ -225,7 +232,7 @@ public class EnemyScript : MonoBehaviour
                     isAttacking = true;
                     myTime = 0;
                     SwordOrbit.Rotation = AngToPlayer;
-                    Debug.Log(endPoint);
+                    //Debug.Log(endPoint);
                     RelativeEndPoint = endPoint - transform.position;
                     SignY = Mathf.Abs(RelativeEndPoint.y)/RelativeEndPoint.y;
                     SignX = Mathf.Abs(RelativeEndPoint.x)/RelativeEndPoint.x;

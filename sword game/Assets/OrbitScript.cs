@@ -18,7 +18,7 @@ public class OrbitScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(Rotation);
+        //Debug.Log(Rotation);
         RotationB = Rotation + 0.5f * Mathf.PI;
         transform.position = new Vector3(Mathf.Cos(RotationB)*Radious,Mathf.Sin(RotationB)*Radious,0) + center.transform.position;
          transform.eulerAngles = new Vector3(0,0,RotationB/Mathf.PI*180 - 90);
