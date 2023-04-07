@@ -29,6 +29,9 @@ public class playerScript : MonoBehaviour
     private SpriteRenderer Rend;
     private SpriteRenderer SwordRend;
     private float AngToEnemy = 0;
+    public GameObject EnemySword;
+    private BoxCollider2D EnemySwordCollider;
+    public float PlayerHealth = 100;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,27 +40,16 @@ public class playerScript : MonoBehaviour
         myEnemyScript = Enemy.GetComponent<EnemyScript>();
         Rend = GetComponent<SpriteRenderer>();
         SwordRend = sword.GetComponent<SpriteRenderer>();
+        EnemySwordCollider = EnemySword.GetComponent<BoxCollider2D>();
         SwordRend.enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.x - Enemy.transform.position.x != 0)
-        {
-            AngToEnemy = Mathf.Atan2(transform.position.y - Enemy.transform.position.y, transform.position.x - Enemy.transform.position.x);
-        }
-        else
-        {
-            if(transform.position.y - transform.position.y == 1)
-            {
-                AngToEnemy = Mathf.PI;
-            }
-            else
-            {
-                AngToEnemy = 0;
-            }
-        }
+        AngToEnemy = Vector3.Angle( new Vector3(transform.position.x - Enemy.transform.position.x, transform.position.y - Enemy.transform.position.y, 0), new Vector3(0, 1, 0));
+        AngToEnemy = Mathf.PI * AngToEnemy / 180;
+        
         if(myEnemyScript.isVulnerable == false)
         {
             if(Input.GetKey(KeyCode.A) == true)
@@ -183,7 +175,14 @@ public class playerScript : MonoBehaviour
         }
         else
         {
-            swordOrbit.Rotation = -swordRotation * -direction + AngToEnemy;
+            if (AngToEnemy > 0)
+            {
+                swordOrbit.Rotation = -swordRotation * -direction + AngToEnemy - Mathf.PI * 0.5f;
+            }
+            else
+            {
+                swordOrbit.Rotation = -swordRotation * -direction + AngToEnemy + Mathf.PI* 0.5f;
+            }
         }
         swordOrbit.Radious = swordLeingth;
     }

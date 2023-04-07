@@ -40,6 +40,7 @@ public class EnemyScript : MonoBehaviour
     private int NumInSeq = 1;
     private bool isAttacking = false;
     private Vector3 VectToPlayer;
+    public float EnemyHealth = 100;
 
 
 //variables for dash
