@@ -124,8 +124,13 @@ public class EnemyScript : MonoBehaviour
         Dash(15f,1,2);
         Dash(15f,10f,3);
         Dash(15f,10f,4);
-        endSeq(5);
-        
+        StartVulnerable(0.3f, 5);
+        Dash(20, 20, 6);
+        Dash(20, 20, 7);
+        Dash(20, 20, 8);
+        Dash(20, 20, 9);
+        Dash(20, 20, 10);
+        endSeq(11);
     }
     void calcVulnerable()
     {
