@@ -428,6 +428,7 @@ GameObject:
   m_Component:
   - component: {fileID: 534437852}
   - component: {fileID: 534437851}
+  - component: {fileID: 534437853}
   m_Layer: 0
   m_Name: enemyHealthbar
   m_TagString: Untagged
@@ -481,7 +482,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 9, y: 0.22}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -496,12 +497,26 @@ Transform:
   m_GameObject: {fileID: 534437850}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5.5, y: 4.120446, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 8, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &534437853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534437850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1f25af4966bd2642881020e8097ffc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  GoesLeft: 0
 --- !u!1 &612492971
 GameObject:
   m_ObjectHideFlags: 0
@@ -611,6 +626,7 @@ MonoBehaviour:
   PlayerSword: {fileID: 1909775062}
   MyCircleColider: {fileID: 612492975}
   Sword: {fileID: 801892367}
+  healthbar: {fileID: 534437850}
   ShieldRotation: 0
   Direction: 1
   isVulnerable: 0
@@ -754,7 +770,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 801892367}
   m_LocalRotation: {x: -0, y: -0, z: -0.707533, w: 0.7066803}
-  m_LocalPosition: {x: 0.023, y: 0.002, z: -0.0051028007}
+  m_LocalPosition: {x: 0.022999996, y: 0.002000003, z: -0.0051028007}
   m_LocalScale: {x: 1.0270959, y: 1.0270959, z: 1.0270959}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1181,7 +1197,7 @@ MonoBehaviour:
   myRigidBody: {fileID: 1743312081}
   myCircleCollider: {fileID: 1743312083}
   jumpHeight: 2373
-  delay: 0.5
+  delay: 1
   swordStartingPoint: -0.7853982
   swordEndPoint: 2.356194
   swingSpeed: 10.58
@@ -1193,7 +1209,7 @@ MonoBehaviour:
   stabSpeed: 10.58
   Enemy: {fileID: 612492971}
   EnemySword: {fileID: 801892367}
-  PlayerHealth: 100
+  Healthbar: {fileID: 1889938167}
 --- !u!1 &1889938167
 GameObject:
   m_ObjectHideFlags: 0
@@ -1258,7 +1274,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 9, y: 0.22}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1273,7 +1289,7 @@ Transform:
   m_GameObject: {fileID: 1889938167}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.5834, y: 4.120446, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 8, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1291,9 +1307,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1f25af4966bd2642881020e8097ffc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1743312075}
-  OgPosition: 0
-  OgSize: 0
+  health: 100
+  GoesLeft: 1
 --- !u!1 &1909775062
 GameObject:
   m_ObjectHideFlags: 0
@@ -1446,7 +1461,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4831551486347243933, guid: be58ab669bdfa4d4982753cc4f13b986, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.01318
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4831551486347243933, guid: be58ab669bdfa4d4982753cc4f13b986, type: 3}
       propertyPath: m_LocalRotation.w

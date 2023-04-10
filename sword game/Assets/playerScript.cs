@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class playerScript : MonoBehaviour
 {
@@ -31,7 +32,9 @@ public class playerScript : MonoBehaviour
     private float AngToEnemy = 0;
     public GameObject EnemySword;
     private BoxCollider2D EnemySwordCollider;
-    public float PlayerHealth = 100;
+    public GameObject Healthbar;
+    private float diToEnemy = 1;
+    private healthbarScript HealthScript;
     // Start is called before the first frame update
     void Start()
     {
@@ -41,14 +44,36 @@ public class playerScript : MonoBehaviour
         Rend = GetComponent<SpriteRenderer>();
         SwordRend = sword.GetComponent<SpriteRenderer>();
         EnemySwordCollider = EnemySword.GetComponent<BoxCollider2D>();
+        HealthScript = Healthbar.GetComponent<healthbarScript>();
         SwordRend.enabled = false;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        AngToEnemy = Vector3.Angle( new Vector3(transform.position.x - Enemy.transform.position.x, transform.position.y - Enemy.transform.position.y, 0), new Vector3(0, 1, 0));
+        timer = timer + Time.deltaTime;
+        if(myCircleCollider.IsTouching(EnemySwordCollider) == true && timer >= delay)
+        {
+            HealthScript.health = HealthScript.health - 20;
+            timer = 0;
+            if(HealthScript.health <= 0)
+            {
+                SceneManager.LoadScene(2);
+            }
+        }
+        diToEnemy = transform.position.x - Enemy.transform.position.x;
+        if (diToEnemy != 0)
+            {
+                diToEnemy = Mathf.Abs(diToEnemy) / diToEnemy;
+            }
+            else
+            {
+                diToEnemy = 1;
+            }
+        AngToEnemy = diToEnemy * Vector3.Angle( new Vector3(transform.position.x - Enemy.transform.position.x, transform.position.y - Enemy.transform.position.y, 0), new Vector3(0, 1, 0));
         AngToEnemy = Mathf.PI * AngToEnemy / 180;
+        //Debug.Log(AngToEnemy);
         
         if(myEnemyScript.isVulnerable == false)
         {
@@ -66,15 +91,8 @@ public class playerScript : MonoBehaviour
         else
         {
             
-            direction = transform.position.x - Enemy.transform.position.x;
-            if (direction != 0)
-            {
-                direction = Mathf.Abs(direction) / direction;
-            }
-            else
-            {
-                direction = 1;
-            }
+            direction = diToEnemy;
+
             if(direction == 1)
             {
                 Rend.flipX = false;
@@ -105,9 +123,9 @@ public class playerScript : MonoBehaviour
 
     void Attack()
     {
-        timer = timer + Time.deltaTime;
+        
         //Debug.Log(timer);
-            if (delay <= timer)
+            if (attackOn == 0)
         {
          
             if (Input.GetKeyDown(KeyCode.J) == true)
@@ -177,11 +195,11 @@ public class playerScript : MonoBehaviour
         {
             if (AngToEnemy > 0)
             {
-                swordOrbit.Rotation = -swordRotation * -direction + AngToEnemy - Mathf.PI * 0.5f;
+                swordOrbit.Rotation = swordRotation * direction - AngToEnemy + Mathf.PI * 0.5f;
             }
             else
             {
-                swordOrbit.Rotation = -swordRotation * -direction + AngToEnemy + Mathf.PI* 0.5f;
+                swordOrbit.Rotation = swordRotation * direction - AngToEnemy - Mathf.PI* 0.5f;
             }
         }
         swordOrbit.Radious = swordLeingth;

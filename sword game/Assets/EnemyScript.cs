@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemyScript : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class EnemyScript : MonoBehaviour
     public GameObject Sword;
     private OrbitScript SwordOrbit;
     private Renderer SwordRend;
+    public GameObject healthbar;
+    private healthbarScript HealthScript;
     //general variables
     public float ShieldRotation;
     public float Direction = 1;
@@ -65,6 +68,7 @@ public class EnemyScript : MonoBehaviour
         myPlayerScript = PlayerObj.GetComponent<playerScript>();
         SwordOrbit = Sword.GetComponent<OrbitScript>();
         SwordRend = Sword.GetComponent<SpriteRenderer>();
+        HealthScript = healthbar.GetComponent<healthbarScript>();
         ShieldTopRend.enabled = false;
         ShieldMidRend.enabled = false;
         ShieldBottomRend.enabled = false;
@@ -105,12 +109,22 @@ public class EnemyScript : MonoBehaviour
         calcVulnerable();
         CalcDash();
     }
+    void TakeHealth(float amount)
+    {
+        HealthScript.health = HealthScript.health - amount;
+        if (HealthScript.health <= 0)
+        {
+            SceneManager.LoadScene(3);
+        }
+    }
     void StartSeq()
     {
         //Debug.Log(NumInSeq);
-        StartVulnerable(0.01f,1);
+        StartVulnerable(0.5f,1);
         Dash(15f,1,2);
-        endSeq(3);
+        Dash(15f,1,3);
+        Dash(15f,1,4);
+        endSeq(5);
         
     }
     void calcVulnerable()
@@ -130,18 +144,21 @@ public class EnemyScript : MonoBehaviour
                 if(PointHit == 1 && ShieldOn <= 1)
                 {
                     Debug.Log("ya gottem");
+                    TakeHealth(20);
                     IsRecover = true;
                 }
 
                 if(PointHit == 2 && ShieldOn <= 2 && ShieldOn > 1)
                 {
                     Debug.Log("ya gottem");
+                    TakeHealth(20);
                     IsRecover = true;
                 }
 
                 if(PointHit == 3 && ShieldOn > 2)
                 {
                     Debug.Log("taco cats are funny... oh, also, you gottem");
+                    TakeHealth(20);
                     IsRecover = true;
                 }
 
