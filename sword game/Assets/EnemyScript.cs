@@ -122,8 +122,8 @@ public class EnemyScript : MonoBehaviour
         //Debug.Log(NumInSeq);
         StartVulnerable(0.5f,1);
         Dash(15f,1,2);
-        Dash(15f,1,3);
-        Dash(15f,1,4);
+        Dash(15f,10f,3);
+        Dash(15f,10f,4);
         endSeq(5);
         
     }
@@ -144,22 +144,25 @@ public class EnemyScript : MonoBehaviour
                 if(PointHit == 1 && ShieldOn <= 1)
                 {
                     Debug.Log("ya gottem");
-                    TakeHealth(20);
+                    TakeHealth(3);
                     IsRecover = true;
+                    NewShieldState();
                 }
 
                 if(PointHit == 2 && ShieldOn <= 2 && ShieldOn > 1)
                 {
                     Debug.Log("ya gottem");
-                    TakeHealth(20);
+                    TakeHealth(3);
                     IsRecover = true;
+                    NewShieldState();
                 }
 
                 if(PointHit == 3 && ShieldOn > 2)
                 {
                     Debug.Log("taco cats are funny... oh, also, you gottem");
-                    TakeHealth(20);
+                    TakeHealth(3);
                     IsRecover = true;
+                    NewShieldState();
                 }
 
                 if(IsRecover == false)
@@ -169,7 +172,7 @@ public class EnemyScript : MonoBehaviour
                 }
                 
                 
-                NewShieldState();
+                
             }
             if(MyCircleColider.IsTouching(PlayerSword.GetComponent<BoxCollider2D>()) == false)
             {
