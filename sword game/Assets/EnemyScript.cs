@@ -125,7 +125,7 @@ public class EnemyScript : MonoBehaviour
         Dash(15f,10f,3);
         Dash(15f,10f,4);
         StartVulnerable(0.3f, 5);
-        Dash(20, 20, 6);
+        Dash(20, 1, 6);
         Dash(20, 20, 7);
         Dash(20, 20, 8);
         Dash(20, 20, 9);
@@ -235,7 +235,6 @@ public class EnemyScript : MonoBehaviour
             SwordRend.enabled = true;
             ActSpeed = speed;
             WindUp = charge;
-            SwordOrbit.Radious = 1.5f;
             SwordOrbit.Rotation = Mathf.PI *0.25f * Direction;
             isDash = true;
         }

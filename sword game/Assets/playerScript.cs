@@ -35,6 +35,7 @@ public class playerScript : MonoBehaviour
     public GameObject Healthbar;
     private float diToEnemy = 1;
     private healthbarScript HealthScript;
+    private bool isRecover = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -52,15 +53,18 @@ public class playerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        timer = timer + Time.deltaTime;
-        if(myCircleCollider.IsTouching(EnemySwordCollider) == true && timer >= delay)
+        if(myCircleCollider.IsTouching(EnemySwordCollider) == true && isRecover == false && myEnemyScript.isVulnerable == false)
         {
             HealthScript.health = HealthScript.health - 20;
-            timer = 0;
             if(HealthScript.health <= 0)
             {
                 SceneManager.LoadScene(2);
             }
+            isRecover = true;
+        }
+        else if(myCircleCollider.IsTouching(EnemySwordCollider) == false)
+        {
+            isRecover = false;
         }
         diToEnemy = transform.position.x - Enemy.transform.position.x;
         if (diToEnemy != 0)
